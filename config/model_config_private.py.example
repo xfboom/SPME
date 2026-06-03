@@ -1,0 +1,7 @@
+MODEL_CONFIG_OVERRIDES = {
+    "providers": {
+        "volc": {
+            "api_key": "paste-your-private-key-here"
+        }
+    }
+}

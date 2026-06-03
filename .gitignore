@@ -1,0 +1,6 @@
+.env
+config/model_config_private.py
+outputs/
+out/
+__pycache__/
+*.pyc

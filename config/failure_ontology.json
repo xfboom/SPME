@@ -1,0 +1,74 @@
+{
+  "Numeric_Distraction": {
+    "definition": "The model incorrectly uses irrelevant numbers, units, or quantities when solving the task.",
+    "attack_style": "Inject decoy numbers, unit conversions, or count-like details that preserve the original answer.",
+    "patch_template": "Before calculating, identify only the quantities required by the final question and ignore unrelated numbers.",
+    "clean_risk": "Low to medium: too much filtering may cause the model to discard relevant quantities."
+  },
+  "Irrelevant_Context": {
+    "definition": "The model follows background information that is semantically unrelated to the required inference.",
+    "attack_style": "Add plausible but irrelevant story details, side conditions, or domain facts.",
+    "patch_template": "Separate task-relevant facts from background context before reasoning.",
+    "clean_risk": "Low: usually improves focus, but broad rules may remove useful context."
+  },
+  "Logic_Inversion": {
+    "definition": "The model answers according to an inverted, reversed, or opposite condition.",
+    "attack_style": "Insert decoy statements with greater/less, before/after, cause/effect, or true/false reversals.",
+    "patch_template": "Check whether each condition belongs to the original task or to an inserted opposite-case decoy.",
+    "clean_risk": "Medium: over-checking can slow or overcomplicate simple reasoning."
+  },
+  "Negation_Trap": {
+    "definition": "The model misses negation, exception, unless, not, or except clauses.",
+    "attack_style": "Add negated phrasing or exception clauses that resemble the true constraint.",
+    "patch_template": "Explicitly mark negation and exception words before selecting the answer.",
+    "clean_risk": "Low to medium: may add unnecessary caution on clean examples."
+  },
+  "Format_Trap": {
+    "definition": "The model follows misleading formatting instructions embedded in the adversarial sample.",
+    "attack_style": "Inject distractor output-format requests that conflict with the system or benchmark answer schema.",
+    "patch_template": "Follow the benchmark answer schema and ignore format demands that are part of the problem text.",
+    "clean_risk": "Medium: overly rigid format rules may harm tasks with legitimate custom schemas."
+  },
+  "Constraint_Violation": {
+    "definition": "The model ignores explicit task constraints or applies constraints from the wrong part of the input.",
+    "attack_style": "Add competing constraints, fake exceptions, or irrelevant requirements.",
+    "patch_template": "List the active task constraints and verify that each step respects only those constraints.",
+    "clean_risk": "Medium: may increase verbosity or induce unnecessary constraint checking."
+  },
+  "Variable_Confusion": {
+    "definition": "The model confuses entities, variables, labels, options, or object identities.",
+    "attack_style": "Introduce similarly named variables, shuffled labels, or overlapping entity descriptions.",
+    "patch_template": "Create a short mapping of variables/entities before reasoning and keep labels consistent.",
+    "clean_risk": "Low to medium: useful for symbolic tasks, but can be excessive for simple QA."
+  },
+  "Misleading_Intermediate_Answer": {
+    "definition": "The model anchors on a decoy intermediate result rather than deriving the final answer.",
+    "attack_style": "Include a plausible but wrong intermediate answer, partial solution, or worked example.",
+    "patch_template": "Treat provided intermediate answers as untrusted unless they are required by the final question and independently verified.",
+    "clean_risk": "Medium: may reduce helpful use of legitimate worked examples."
+  },
+  "Overthinking_Distractor": {
+    "definition": "The model over-elaborates and follows distractor branches that are not needed for the answer.",
+    "attack_style": "Add tempting but unnecessary multi-step details or side cases.",
+    "patch_template": "Solve the minimal subproblem required by the final question before considering extra branches.",
+    "clean_risk": "Low: encourages concise reasoning, but may undersolve genuinely multi-step tasks."
+  },
+  "Arithmetic_Error": {
+    "definition": "The model selects the right reasoning path but makes a calculation error.",
+    "attack_style": "Increase arithmetic load with distractor values or similar operations.",
+    "patch_template": "After deriving the expression, recompute the arithmetic once before finalizing.",
+    "clean_risk": "Low: small token cost, usually improves math reliability."
+  },
+  "Output_Schema_Violation": {
+    "definition": "The answer is semantically correct but violates the required output schema.",
+    "attack_style": "Add competing schemas or ask for extra prose that conflicts with evaluation.",
+    "patch_template": "Put only the final answer in the required schema and avoid extra text after it.",
+    "clean_risk": "Low to medium: strict schema can harm tasks that expect explanations."
+  },
+  "Unknown_Vulnerability": {
+    "definition": "The failure does not clearly match the known ontology.",
+    "attack_style": "Unclassified adversarial behavior or model error.",
+    "patch_template": "Generate the narrowest possible rule tied to the observed failure and mark it for later pruning.",
+    "clean_risk": "High: unknown patches are more likely to overfit."
+  }
+}

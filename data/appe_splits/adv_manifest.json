@@ -1,0 +1,15 @@
+{
+  "seen_attacks": [
+    "Numeric_Distraction",
+    "Irrelevant_Context",
+    "Format_Trap"
+  ],
+  "unseen_attacks": [
+    "Logic_Inversion",
+    "Variable_Confusion",
+    "Misleading_Intermediate_Answer"
+  ],
+  "seen_count": 90,
+  "unseen_count": 90,
+  "note": "Unseen attacks are reserved for final evaluation and must not be used during APPE evolution."
+}

@@ -1,0 +1,242 @@
+[
+  {
+    "question": "False or False and False or not True is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00031",
+    "sample_id": "train_00031",
+    "original_id": "train_00031"
+  },
+  {
+    "question": "False or ( not ( False ) ) is",
+    "answer": "True",
+    "source": "boolean_expressions.json",
+    "id": "train_00074",
+    "sample_id": "train_00074",
+    "original_id": "train_00074"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nJim, Carol, Bob, and Nancy are researchers in a remote area, and they have a limited supply of electricity. Because of their limited supply, the electricity only comes on in the evenings from 8-9 PM, and they have to restrict who can use power on certain days. If three people turn on their lamps at the same time, the breaker will fail. The breaker will not fail if fewer people turn on their lamps at the same time. Jim is not supposed to use his lamp on Thursdays. Carol, Bob, and Nancy may all use their lamps on Thursdays. This Thursday Jim turns on his lamp at 8 PM. Just then, Carol turns on her lamp, and Bob also turns on his lamp. Since three people turned on their lamps at the same time, the circuit breaker failed. Did Jim turning on his lamp at 8 PM cause the circuit breaker to fail?\nOptions:\n- Yes\n- No",
+    "answer": "Yes",
+    "source": "causal_judgement.json",
+    "id": "train_00010",
+    "sample_id": "train_00010",
+    "original_id": "train_00010"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nImagine that there is a man out in the woods who is participating in a hunting competition. After spending hours waiting for a deer to cross his path, the hunter suddenly sees the largest deer he has ever seen. If he can only kill this deer, he will surely win the competition. So, the hunter gets the deer in his sights and pulls the trigger-thereby killing the deer. Unfortunately, the bullet exited the deer's body and struck a hunter who was hiding nearby. Did the man intentionally shoot the hunter?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00094",
+    "sample_id": "train_00094",
+    "original_id": "train_00094"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a branch, there are five birds: a falcon, a raven, a cardinal, a hawk, and a crow. The cardinal is the second from the right. The hawk is to the right of the falcon. The raven is the second from the left. The crow is the rightmost.\nOptions:\n(A) The falcon is the leftmost\n(B) The raven is the leftmost\n(C) The cardinal is the leftmost\n(D) The hawk is the leftmost\n(E) The crow is the leftmost",
+    "answer": "(A)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00048",
+    "sample_id": "train_00048",
+    "original_id": "train_00048"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In a golf tournament, there were five golfers: Rob, Eve, Eli, Amy, and Dan. Dan finished second. Amy finished below Eve. Dan finished above Eve. Amy finished above Eli.\nOptions:\n(A) Rob finished first\n(B) Eve finished first\n(C) Eli finished first\n(D) Amy finished first\n(E) Dan finished first",
+    "answer": "(A)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00077",
+    "sample_id": "train_00077",
+    "original_id": "train_00077"
+  },
+  {
+    "question": "not False or ( True ) and True is",
+    "answer": "True",
+    "source": "boolean_expressions.json",
+    "id": "train_00107",
+    "sample_id": "train_00107",
+    "original_id": "train_00107"
+  },
+  {
+    "question": "True or not not ( not False ) is",
+    "answer": "True",
+    "source": "boolean_expressions.json",
+    "id": "train_00092",
+    "sample_id": "train_00092",
+    "original_id": "train_00092"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In an antique car show, there are five vehicles: a tractor, a station wagon, a minivan, a sedan, and a hatchback. The minivan is older than the sedan. The tractor is older than the hatchback. The minivan is the third-newest. The station wagon is the second-newest.\nOptions:\n(A) The tractor is the newest\n(B) The station wagon is the newest\n(C) The minivan is the newest\n(D) The sedan is the newest\n(E) The hatchback is the newest",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00027",
+    "sample_id": "train_00027",
+    "original_id": "train_00027"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. A fruit stand sells five fruits: oranges, apples, peaches, cantaloupes, and loquats. The loquats are less expensive than the cantaloupes. The cantaloupes are less expensive than the apples. The oranges are the most expensive. The apples are the third-most expensive.\nOptions:\n(A) The oranges are the second-cheapest\n(B) The apples are the second-cheapest\n(C) The peaches are the second-cheapest\n(D) The cantaloupes are the second-cheapest\n(E) The loquats are the second-cheapest",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00038",
+    "sample_id": "train_00038",
+    "original_id": "train_00038"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nA sniper has been ordered to kill an enemy commander. So, after getting himself into position, he finally has the enemy commander in his sights. Before he pulls the trigger, however, the sniper realizes that the gunfire will definitely cause the barrel of his gun to get hot. But the sniper doesn't care at all whether the barrel of the gun is hot, he doesn't have to touch it anyway. So, he pulls the trigger -- thereby shooting and killing the commander. And, as the sniper expected, firing the gun caused the barrel to heat up. Did the sniper intentionally heat the barrel of his gun?\nOptions:\n- Yes\n- No",
+    "answer": "Yes",
+    "source": "causal_judgement.json",
+    "id": "train_00002",
+    "sample_id": "train_00002",
+    "original_id": "train_00002"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a shelf, there are five books: a black book, a brown book, a yellow book, an orange book, and a red book. The black book is to the left of the yellow book. The red book is the third from the left. The brown book is the second from the left. The yellow book is to the left of the orange book.\nOptions:\n(A) The black book is the third from the left\n(B) The brown book is the third from the left\n(C) The yellow book is the third from the left\n(D) The orange book is the third from the left\n(E) The red book is the third from the left",
+    "answer": "(E)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00033",
+    "sample_id": "train_00033",
+    "original_id": "train_00033"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. A fruit stand sells five fruits: mangoes, cantaloupes, plums, oranges, and watermelons. The oranges are more expensive than the watermelons. The watermelons are the second-cheapest. The plums are less expensive than the cantaloupes. The plums are the second-most expensive.\nOptions:\n(A) The mangoes are the most expensive\n(B) The cantaloupes are the most expensive\n(C) The plums are the most expensive\n(D) The oranges are the most expensive\n(E) The watermelons are the most expensive",
+    "answer": "(B)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00022",
+    "sample_id": "train_00022",
+    "original_id": "train_00022"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In an antique car show, there are five vehicles: a truck, a motorcyle, a limousine, a station wagon, and a sedan. The limousine is older than the truck. The sedan is newer than the motorcyle. The station wagon is the oldest. The limousine is newer than the sedan.\nOptions:\n(A) The truck is the oldest\n(B) The motorcyle is the oldest\n(C) The limousine is the oldest\n(D) The station wagon is the oldest\n(E) The sedan is the oldest",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00008",
+    "sample_id": "train_00008",
+    "original_id": "train_00008"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In an antique car show, there are five vehicles: a sedan, a convertible, a station wagon, a bus, and a motorcyle. The sedan is the second-newest. The station wagon is newer than the convertible. The sedan is older than the motorcyle. The bus is the oldest.\nOptions:\n(A) The sedan is the oldest\n(B) The convertible is the oldest\n(C) The station wagon is the oldest\n(D) The bus is the oldest\n(E) The motorcyle is the oldest",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00035",
+    "sample_id": "train_00035",
+    "original_id": "train_00035"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nTom has a huge garden and loves flowers. He employed two gardeners who take care of the plants on his 30 flower beds: Alex and Benni. Both can independently decide on their working hours and arrange who cares for which flower beds. Alex and Benni are very reliable and Tom is satisfied with their work. Nevertheless he wants to optimize the plant growth. Since Tom has read in a magazine that plants grow better when they are fertilized, he decides to let Alex and Benni fertilize his plants. The magazine recommends the use of the chemicals A X200R or B Y33R, since both are especially effective. However, Tom also read that it can damage plants when they are exposed to multiple different types of chemicals. Tom therefore decides that he only wants to use one fertilizer. He goes for A X200R. When Tom meets Alex in the garden shortly afterwards, he instructs him to buy the chemical A X200R and to use only this fertilizer. He also explicitly instructs him to tell Benni to only use A X200R. Alex volunteers to buy several bottles of this chemical for Benni and himself and to tell Benni about Tom's instruction. After a few weeks, Tom goes for a walk in his garden. He realizes that some of his plants are much prettier and bigger than before. However, he also realizes that some of his plants have lost their beautiful color and are dried up. That makes Tom very sad and reflective. He wonders whether the drying of his plants might have something to do with the fertilization. He wants to investigate this matter and talks to Alex and Benni. After some interrogation, Alex finally confesses that he had told Benni that Tom wanted them to buy and use the chemical B Y33R instead of A X200R. He wanted Benni to use the wrong fertilizer and to get fired because he wanted to have more working hours to earn more money. He himself only used A X200R. Benni tells Tom that Alex had told him that they were only supposed to use B Y33R. He therefore only used B Y33R without knowing that Tom actually intended both gardeners to use A X200R. Tom realizes that the plants dried up in the flower beds on which both A X200R and B Y33R were applied by the gardeners. Did Benni cause the plant to dry out?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00081",
+    "sample_id": "train_00081",
+    "original_id": "train_00081"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a shelf, there are five books: a blue book, a purple book, a yellow book, a black book, and a green book. The purple book is the third from the left. The yellow book is to the left of the black book. The green book is to the left of the purple book. The blue book is to the left of the green book.\nOptions:\n(A) The blue book is the rightmost\n(B) The purple book is the rightmost\n(C) The yellow book is the rightmost\n(D) The black book is the rightmost\n(E) The green book is the rightmost",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00117",
+    "sample_id": "train_00117",
+    "original_id": "train_00117"
+  },
+  {
+    "question": "False or False and not not not False is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00009",
+    "sample_id": "train_00009",
+    "original_id": "train_00009"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a branch, there are five birds: a robin, an owl, a quail, a hummingbird, and a crow. The crow is to the right of the robin. The quail is the leftmost. The hummingbird is to the right of the owl. The crow is the third from the left.\nOptions:\n(A) The robin is the third from the left\n(B) The owl is the third from the left\n(C) The quail is the third from the left\n(D) The hummingbird is the third from the left\n(E) The crow is the third from the left",
+    "answer": "(E)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00061",
+    "sample_id": "train_00061",
+    "original_id": "train_00061"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nProf. Smith works at a large university. At this university, in order to get new computers from the university, faculty like Prof. Smith must send an application to two administrative committees, the IT committee and the department budget committee. Prof. Smith will be able to get her new computers if the IT committee approves her application or the department budget committee approves her application. Only one of the committees needs to approve her application for her to get the new computers. The IT committee almost always approves these applications. The department budget committee almost never approves these applications. The budget committee is notorious for turning down almost every application they receive. Prof. Smith sends in her applications. Each committee meets independently and they decide without talking to each other, but their meetings are scheduled for the exact same time. The IT committee approves her application, and surprisingly, the department budget committee approves her application. So, Prof. Smith got her new computers. Does the department budget committee cause the approval of Prof. Smith's application?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00053",
+    "sample_id": "train_00053",
+    "original_id": "train_00053"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nTom has a huge garden and loves flowers. He employed two gardeners who take care of the plants on his 30 flower beds: Alex and Benni. Both can independently decide on their working hours and arrange who cares for which flower beds. Alex and Benni are very reliable and Tom is satisfied with their work. Nevertheless he wants to optimize the plant growth. Since Tom has read in a magazine that plants grow better when they are fertilized, he decides to let Alex and Benni fertilize his plants. The magazine recommends the use of the chemicals A X200R or B Y33R, since both are especially effective. However, Tom also read that it can damage plants when they are exposed to multiple different types of chemicals. Tom therefore decides that he only wants to use one fertilizer. He goes for A X200R. When Tom meets Alex in the garden shortly afterwards, he instructs him to buy the chemical A X200R and to use only this fertilizer. He also explicitly instructs him to tell Benni to only use A X200R. Alex volunteers to buy several bottles of this chemical for Benni and himself and to tell Benni about Tom's instruction. After a few weeks, Tom goes for a walk in his garden. He realizes that some of his plants are much prettier and bigger than before. However, he also realizes that some of his plants have lost their beautiful color and are dried up. That makes Tom very sad and reflective. He wonders whether the drying of his plants might have something to do with the fertilization. He wants to investigate this matter and talks to Alex and Benni. After some interrogation, Alex finally confesses that he had told Benni that Tom wanted them to buy and use the chemical B Y33R instead of A X200R. He wanted Benni to use the wrong fertilizer and to get fired because he wanted to have more working hours to earn more money. He himself only used A X200R. Benni tells Tom that Alex had told him that they were only supposed to use B Y33R. He therefore only used B Y33R without knowing that Tom actually intended both gardeners to use A X200R. Tom realizes that the plants dried up in the flower beds on which both A X200R and B Y33R were applied by the gardeners. Did the fertilization by Alex cause the plant to dry out?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00047",
+    "sample_id": "train_00047",
+    "original_id": "train_00047"
+  },
+  {
+    "question": "not True and True or True and False is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00066",
+    "sample_id": "train_00066",
+    "original_id": "train_00066"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In an antique car show, there are five vehicles: a sedan, a convertible, a station wagon, a bus, and a motorcyle. The sedan is the second-newest. The station wagon is newer than the convertible. The sedan is older than the motorcyle. The bus is the oldest.\nOptions:\n(A) The sedan is the second-newest\n(B) The convertible is the second-newest\n(C) The station wagon is the second-newest\n(D) The bus is the second-newest\n(E) The motorcyle is the second-newest",
+    "answer": "(A)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00039",
+    "sample_id": "train_00039",
+    "original_id": "train_00039"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a branch, there are five birds: a blue jay, a cardinal, a hawk, a hummingbird, and a quail. The quail is to the left of the blue jay. The cardinal is the third from the left. The quail is the second from the left. The blue jay is to the left of the hummingbird.\nOptions:\n(A) The blue jay is the rightmost\n(B) The cardinal is the rightmost\n(C) The hawk is the rightmost\n(D) The hummingbird is the rightmost\n(E) The quail is the rightmost",
+    "answer": "(D)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00052",
+    "sample_id": "train_00052",
+    "original_id": "train_00052"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nWayne has a new high-tech watch that tracks his heart rate while he exercises. He must charge the device before he uses it this evening. The device will fully charge in one hour if it is either plugged in or on the charging pad. At 2:00 PM, the device is plugged in, and the device is not on the charging pad. At that time, Wayne checks to see if the device is on the charging pad, and he sees that it's not. So, he changes the position of the device, and he puts it on the charging pad. Because the device will fully charge in one hour if it is either plugged in or on the charging pad, the device is fully charged at 3:00 PM. Is the device fully charged because Wayne changed the position of the device?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00050",
+    "sample_id": "train_00050",
+    "original_id": "train_00050"
+  },
+  {
+    "question": "not not not not True and not True is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00075",
+    "sample_id": "train_00075",
+    "original_id": "train_00075"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. A fruit stand sells five fruits: oranges, cantaloupes, peaches, loquats, and kiwis. The peaches are more expensive than the oranges. The cantaloupes are more expensive than the peaches. The kiwis are the third-most expensive. The loquats are the second-cheapest.\nOptions:\n(A) The oranges are the cheapest\n(B) The cantaloupes are the cheapest\n(C) The peaches are the cheapest\n(D) The loquats are the cheapest\n(E) The kiwis are the cheapest",
+    "answer": "(A)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00023",
+    "sample_id": "train_00023",
+    "original_id": "train_00023"
+  },
+  {
+    "question": "True or ( not ( True ) ) is",
+    "answer": "True",
+    "source": "boolean_expressions.json",
+    "id": "train_00067",
+    "sample_id": "train_00067",
+    "original_id": "train_00067"
+  },
+  {
+    "question": "( ( not True and True ) ) is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00064",
+    "sample_id": "train_00064",
+    "original_id": "train_00064"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nNed has a new motorboat. When Ned turns the key, the motorboat starts if either the gear is in neutral or the motor is in the lock position. Today, the gear is in neutral, and the motor is not in the lock position. Ned checks the motor to see if it is in the lock position. He changes its position, and he puts it in the lock position. Because the motorboat would start if either the gear is in neutral or the motor is in the lock position, the motorboat starts when Ned turns the key. Did the motorboat start because Ned changed the position of the motor?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00086",
+    "sample_id": "train_00086",
+    "original_id": "train_00086"
+  }
+]

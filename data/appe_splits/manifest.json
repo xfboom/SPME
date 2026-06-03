@@ -1,0 +1,16 @@
+{
+  "seed": 42,
+  "requested": {
+    "calib": 10,
+    "evo_clean": 30,
+    "guard": 20,
+    "test_clean": 30
+  },
+  "actual": {
+    "calib": 10,
+    "evo_clean": 30,
+    "guard": 20,
+    "test_clean": 30
+  },
+  "notes": "D_calib/D_evo_clean/D_guard are sampled from raw_train_path; D_test is sampled from raw_test_path."
+}

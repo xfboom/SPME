@@ -1,0 +1,82 @@
+[
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nJim, Carol, Bob, and Nancy are researchers in a remote area, and they have a limited supply of electricity. Because of their limited supply, the electricity only comes on in the evenings from 8-9 PM, and they have to restrict who can use power on certain days. If two people turn on their lamps at the same time, the breaker will fail. The breaker will not fail if fewer people turn on their lamps at the same time. Jim is not supposed to use his lamp on Thursdays. Carol, Bob, and Nancy may all use their lamps on Thursdays. This Thursday Jim turns on his lamp at 8 PM. Just then, Carol also turns on her lamp. Since two people turned on their lamps at the same time, the circuit breaker failed. Did Jim turning on his lamp at 8 PM cause the circuit breaker to fail?\nOptions:\n- Yes\n- No",
+    "answer": "Yes",
+    "source": "causal_judgement.json",
+    "id": "train_00069",
+    "sample_id": "train_00069",
+    "original_id": "train_00069"
+  },
+  {
+    "question": "not False and False and False or False is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00112",
+    "sample_id": "train_00112",
+    "original_id": "train_00112"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a shelf, there are five books: a blue book, a purple book, a yellow book, a red book, and a gray book. The yellow book is to the right of the gray book. The purple book is to the left of the gray book. The red book is to the right of the blue book. The purple book is the third from the left.\nOptions:\n(A) The blue book is the second from the right\n(B) The purple book is the second from the right\n(C) The yellow book is the second from the right\n(D) The red book is the second from the right\n(E) The gray book is the second from the right",
+    "answer": "(E)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00083",
+    "sample_id": "train_00083",
+    "original_id": "train_00083"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nLong ago, when John was only 17 years old, he got a job working for a large manufacturing company. He started out working on an assembly line for minimum wage, but after a few years at the company, he was given a choice between two line manager positions. He could stay in the woodwork division, which is where he was currently working. Or he could move to the plastics division. John was unsure what to do because he liked working in the woodwork division, but he also thought it might be worth trying something different. He finally decided to switch to the plastics division and try something new. For the last 30 years, John has worked as a production line supervisor in the plastics division. After the first year there, the plastics division was moved to a different building with more space. Unfortunately, through the many years he worked there, John was exposed to asbestos, a highly carcinogenic substance. Most of the plastics division was quite safe, but the small part in which John worked was exposed to asbestos fibers. And now, although John has never smoked a cigarette in his life and otherwise lives a healthy lifestyle, he has a highly progressed and incurable case of lung cancer at the age of 50. John had seen three cancer specialists, all of whom confirmed the worst: that, except for pain, John's cancer was untreatable and he was absolutely certain to die from it very soon (the doctors estimated no more than 2 months). Yesterday, while John was in the hospital for a routine medical appointment, a new nurse accidentally administered the wrong medication to him. John was allergic to the drug and he immediately went into shock and experienced cardiac arrest (a heart attack). Doctors attempted to resuscitate him but he died minutes after the medication was administered. Did the nurse's carelessness cause John's premature death?\nOptions:\n- Yes\n- No",
+    "answer": "Yes",
+    "source": "causal_judgement.json",
+    "id": "train_00051",
+    "sample_id": "train_00051",
+    "original_id": "train_00051"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nIn a particular building there are two businesses, a travel agency and a graphic design studio. The building's climate control system is a new design that saves energy by keeping track of the number of people in the building, and only turning on when enough people have entered the building. The climate control system will turn on when the people who work at the travel agency or the people who work in the design studio arrive for work. Each office has enough employees to turn on the climate control system on their own. The travel agency employees almost always arrive at 8:45am, but the design studio employees almost always arrive at 10 am. Today, the travel agency employees arrived at 8:45 am. Unexpectedly, the design studio employees also arrived at 8:45 am to meet a deadline. So, today, the climate control system turned on at 8:45 am. Did the design studio agents cause the climate control system to turn on at 8:45 am?\nOptions:\n- Yes\n- No",
+    "answer": "No",
+    "source": "causal_judgement.json",
+    "id": "train_00042",
+    "sample_id": "train_00042",
+    "original_id": "train_00042"
+  },
+  {
+    "question": "not not ( False or not True ) is",
+    "answer": "False",
+    "source": "boolean_expressions.json",
+    "id": "train_00017",
+    "sample_id": "train_00017",
+    "original_id": "train_00017"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In a golf tournament, there were five golfers: Eve, Amy, Ada, Rob, and Joe. Amy finished second-to-last. Rob finished below Eve. Ada finished above Joe. Joe finished second.\nOptions:\n(A) Eve finished first\n(B) Amy finished first\n(C) Ada finished first\n(D) Rob finished first\n(E) Joe finished first",
+    "answer": "(C)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00085",
+    "sample_id": "train_00085",
+    "original_id": "train_00085"
+  },
+  {
+    "question": "How would a typical person answer each of the following questions about causation?\nA sniper has been ordered to kill an enemy commander. So, after getting himself into position, he finally has the enemy commander in his sights. Before he pulls the trigger, however, the sniper realizes that the gunfire will definitely alert the other enemy soldiers to his presence. But the sniper doesn't care at all about that -- he just wants to shoot his target. So, he pulls the trigger -- thereby shooting and killing the commander. And, as he expected, the enemy soldiers are alerted to his presence. Did the sniper intentionally alert the enemies to his presence?\nOptions:\n- Yes\n- No",
+    "answer": "Yes",
+    "source": "causal_judgement.json",
+    "id": "train_00089",
+    "sample_id": "train_00089",
+    "original_id": "train_00089"
+  },
+  {
+    "question": "( not False ) or True and False is",
+    "answer": "True",
+    "source": "boolean_expressions.json",
+    "id": "train_00106",
+    "sample_id": "train_00106",
+    "original_id": "train_00106"
+  },
+  {
+    "question": "The following paragraphs each describe a set of five objects arranged in a fixed order. The statements are logically consistent within each paragraph. In a golf tournament, there were five golfers: Amy, Mel, Rob, Joe, and Ada. Joe finished second. Joe finished below Amy. Mel finished second-to-last. Ada finished last.\nOptions:\n(A) Amy finished third\n(B) Mel finished third\n(C) Rob finished third\n(D) Joe finished third\n(E) Ada finished third",
+    "answer": "(C)",
+    "source": "logical_deduction_five_objects.json",
+    "id": "train_00063",
+    "sample_id": "train_00063",
+    "original_id": "train_00063"
+  }
+]
