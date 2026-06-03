@@ -31,3 +31,23 @@ def test_extracts_markdown_answer_label_with_next_line():
 def test_extracts_answer_label_choice_letter():
     assert extract_answer("</think>\n\nANSWER: D") == "(D)"
     assert is_correct_output("</think>\n\nANSWER: D", "(D)")
+
+
+def test_extracts_answer_is_sentence():
+    output = '</answer>\n</think>\n\nThe answer is "Yes."'
+    assert extract_answer(output) == "Yes"
+    assert is_correct_output(output, "Yes")
+
+
+def test_maps_choice_text_to_option_letter():
+    question = (
+        "Options:\n"
+        "(A) The hawk is the rightmost\n"
+        "(B) The raven is the rightmost\n"
+        "(C) The robin is the rightmost\n"
+        "(D) The hummingbird is the rightmost\n"
+        "(E) The crow is the rightmost"
+    )
+    output = "</answer>\n</think>\n\nThus, the hummingbird is on the rightmost side."
+    assert extract_answer(output, question) == "(D)"
+    assert is_correct_output(output, "(D)", question)

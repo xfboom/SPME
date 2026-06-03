@@ -50,12 +50,12 @@ def _is_numeric_answer(answer: str) -> bool:
     return _extract_number(answer) is not None and answer.strip() != ""
 
 
-def _extract_answer(text: str) -> str:
-    return extract_answer(text)
+def _extract_answer(text: str, question: str | None = None) -> str:
+    return extract_answer(text, question)
 
 
-def _is_correct(response: str, answer: str) -> bool:
-    return is_correct_output(response, answer)
+def _is_correct(response: str, answer: str, question: str | None = None) -> bool:
+    return is_correct_output(response, answer, question)
 
 
 def is_correct_response(response: str, expected_answer: str) -> bool:
@@ -72,7 +72,7 @@ async def _arun_evaluation(system_prompt: str, test_data: list, model_name: str 
             full_prompt = f"{system_prompt}\n\nQuestion: {item['question']}"
             try:
                 response = await target_llm.ainvoke(full_prompt)
-                is_corr = _is_correct(response, str(item["answer"]))
+                is_corr = _is_correct(response, str(item["answer"]), str(item.get("question", "")))
             except Exception as e:
                 if log:
                     print(f"    [{i+1}/{total}] Error: {e}")

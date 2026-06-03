@@ -331,22 +331,39 @@ def load_prompt(path: str | Path) -> str:
     return text
 
 
-def extract_answer(text: str) -> str:
+def extract_answer(text: str, question: str | None = None) -> str:
     text = text or ""
     for match in re.finditer(r"<answer>(.*?)</answer>", text, re.IGNORECASE | re.DOTALL):
         candidate = _clean_answer_candidate(match.group(1))
+        if question:
+            inferred = _infer_choice_from_option_text(candidate, question)
+            if inferred:
+                return inferred
         if candidate and not _is_placeholder_answer(candidate):
             return candidate
 
     search_region = _post_think_region(text)
     for candidate in _iter_fallback_answer_candidates(search_region):
         candidate = _clean_answer_candidate(candidate)
+        if question:
+            inferred = _infer_choice_from_option_text(candidate, question)
+            if inferred:
+                return inferred
         if candidate and not _is_placeholder_answer(candidate):
             return candidate
+
+    if question:
+        inferred = _infer_choice_from_option_text(search_region, question)
+        if inferred:
+            return inferred
 
     if search_region != text:
         for candidate in _iter_fallback_answer_candidates(text):
             candidate = _clean_answer_candidate(candidate)
+            if question:
+                inferred = _infer_choice_from_option_text(candidate, question)
+                if inferred:
+                    return inferred
             if candidate and not _is_placeholder_answer(candidate):
                 return candidate
     return ""
@@ -385,6 +402,7 @@ def _clean_answer_candidate(text: str) -> str:
     candidate = str(text or "").strip()
     candidate = re.sub(r"^```(?:\w+)?|```$", "", candidate).strip()
     candidate = re.sub(r"^\*+|\*+$", "", candidate).strip()
+    candidate = candidate.strip("\"'`")
     boxed = re.fullmatch(r"\\boxed\{\s*(.*?)\s*\}", candidate, re.IGNORECASE | re.DOTALL)
     if boxed:
         candidate = boxed.group(1).strip()
@@ -397,13 +415,17 @@ def _clean_answer_candidate(text: str) -> str:
     if label:
         return label
 
-    return candidate.strip(" \t\r\n。.")
+    return candidate.strip(" \t\r\n.,;:")
 
 
 def _iter_fallback_answer_candidates(text: str):
     lines = [line.strip() for line in (text or "").splitlines()]
     label_pattern = re.compile(
-        r"^(?:\*+)?\s*(?:answer|final answer|final|答案)\s*(?:\*+)?\s*[:：]\s*(.*)$",
+        r"^(?:\*+)?\s*(?:answer|final answer|final)\s*(?:\*+)?\s*:\s*(.*)$",
+        re.IGNORECASE,
+    )
+    answer_is_pattern = re.compile(
+        r"\b(?:the\s+)?(?:correct\s+)?answer\s+is(?:\s+that)?\s+(.+)$",
         re.IGNORECASE,
     )
     for idx, line in enumerate(lines):
@@ -421,6 +443,10 @@ def _iter_fallback_answer_candidates(text: str):
         for boxed_match in re.finditer(r"\\boxed\{\s*([^}]+?)\s*\}", line, re.IGNORECASE):
             yield boxed_match.group(1)
 
+        answer_is_match = answer_is_pattern.search(line)
+        if answer_is_match:
+            yield answer_is_match.group(1)
+
     for line in reversed(lines):
         if _normalize_choice_answer(line) or _normalize_short_label(line):
             yield line
@@ -429,7 +455,7 @@ def _iter_fallback_answer_candidates(text: str):
 
 def _normalize_choice_answer(text: str) -> str:
     candidate = str(text or "").strip()
-    match = re.match(r"^\(?([A-Fa-f])\)?(?:[\).:：\s]|$)", candidate)
+    match = re.match(r"^\(?([A-Fa-f])\)?(?:[\).:\s]|$)", candidate)
     if match and not re.match(r"^(false|final)\b", candidate, re.IGNORECASE):
         return f"({match.group(1).upper()})"
     match = re.search(r"\(([A-Fa-f])\)", candidate)
@@ -439,7 +465,7 @@ def _normalize_choice_answer(text: str) -> str:
 
 
 def _normalize_short_label(text: str) -> str:
-    candidate = str(text or "").strip().strip("\"'`“”‘’")
+    candidate = str(text or "").strip().strip("\"'`")
     match = re.match(r"^(true|false|yes|no|valid|invalid)\b", candidate, re.IGNORECASE)
     if not match:
         return ""
@@ -462,8 +488,82 @@ def _normalize_answer_for_match(text: str) -> str:
     return re.sub(r"\s+", " ", candidate).strip().lower()
 
 
-def is_correct_output(output: str, answer: str) -> bool:
-    parsed = extract_answer(output)
+def _extract_choice_options(question: str | None) -> dict[str, str]:
+    options: dict[str, str] = {}
+    for line in str(question or "").splitlines():
+        match = re.match(r"\s*\(([A-Fa-f])\)\s*(.+?)\s*$", line)
+        if match:
+            options[f"({match.group(1).upper()})"] = match.group(2)
+    return options
+
+
+_OPTION_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "answer",
+    "are",
+    "as",
+    "be",
+    "correct",
+    "from",
+    "in",
+    "is",
+    "of",
+    "on",
+    "option",
+    "or",
+    "that",
+    "the",
+    "this",
+    "to",
+    "which",
+}
+
+
+def _content_tokens(text: str) -> set[str]:
+    tokens = set(re.findall(r"[a-z0-9]+", str(text or "").lower()))
+    return {token for token in tokens if token not in _OPTION_STOPWORDS and len(token) > 1}
+
+
+def _infer_choice_from_option_text(text: str, question: str | None) -> str:
+    options = _extract_choice_options(question)
+    if not options:
+        return ""
+
+    lines = [line.strip() for line in str(text or "").splitlines() if line.strip()]
+    segments = list(reversed(lines))
+    compact_text = str(text or "").strip()
+    if compact_text:
+        segments.append(compact_text[-500:])
+        segments.append(compact_text)
+
+    for segment in segments:
+        region_tokens = _content_tokens(segment)
+        if not region_tokens:
+            continue
+
+        scored: list[tuple[float, str]] = []
+        for option, option_text in options.items():
+            option_tokens = _content_tokens(option_text)
+            if not option_tokens:
+                continue
+            overlap = len(option_tokens & region_tokens)
+            score = overlap / len(option_tokens)
+            scored.append((score, option))
+
+        if not scored:
+            continue
+        scored.sort(reverse=True)
+        best_score, best_option = scored[0]
+        second_score = scored[1][0] if len(scored) > 1 else 0.0
+        if best_score >= 0.67 and best_score > second_score:
+            return best_option
+    return ""
+
+
+def is_correct_output(output: str, answer: str, question: str | None = None) -> bool:
+    parsed = extract_answer(output, question)
     if parsed == "":
         return False
     expected_num = _extract_number(str(answer))
@@ -542,7 +642,7 @@ def predict_samples(
             output = mock_model_output(prompt, sample)
         else:
             output = client.invoke(full_prompt)
-        parsed = extract_answer(output)
+        parsed = extract_answer(output, str(sample.get("question", "")))
         predictions.append(
             {
                 "sample_id": str(sample.get("sample_id") or sample.get("id")),
@@ -553,7 +653,11 @@ def predict_samples(
                 "gold_answer": str(sample.get("answer", "")),
                 "model_output": output,
                 "parsed_answer": parsed,
-                "is_correct": is_correct_output(output, str(sample.get("answer", ""))),
+                "is_correct": is_correct_output(
+                    output,
+                    str(sample.get("answer", "")),
+                    str(sample.get("question", "")),
+                ),
             }
         )
         if show_progress and tqdm is None and (idx == total or idx == 1 or idx % max(1, total // 10) == 0):
