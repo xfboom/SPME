@@ -1,0 +1,13 @@
+# Core APPE/S-MAPE code uses Python standard library for local/Ollama/OpenAI-compatible HTTP.
+# These packages cover plotting, tests, optional HuggingFace data loading, and richer prompt/template support.
+
+matplotlib>=3.8
+pytest>=8.0
+datasets>=2.19
+PyYAML>=6.0
+Jinja2>=3.1
+python-dotenv>=1.0
+
+# Optional: if installed, core/LLMClient can use LangChain's ChatOpenAI wrapper.
+langchain-openai>=0.1.0
+langchain-core>=0.2.0
