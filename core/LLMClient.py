@@ -33,12 +33,22 @@ class LLMClient:
         temperature: float | None = None,
         provider: str | None = None,
         role: str = "target",
+        max_output_tokens: int | None = None,
+        timeout: int = 600,
     ):
         self.config = get_llm_api_config(provider, role=role, model_override=model_name)
         self.role = role
         role_config = get_llm_role_config(role)
         self.provider = self.config.provider
         self.temperature = temperature if temperature is not None else role_config.temperature if role_config.temperature is not None else 0.7
+        self.max_output_tokens = (
+            max_output_tokens
+            if max_output_tokens is not None
+            else role_config.max_output_tokens
+            if role_config.max_output_tokens is not None
+            else 256
+        )
+        self.timeout = timeout
         self.model_name = self.config.model
         self.base_url = (self.config.base_url or "").rstrip("/")
         self.api_key = self.config.api_key
@@ -94,8 +104,9 @@ class LLMClient:
             "model": self.model_name,
             "messages": [{"role": "user", "content": message}],
             "temperature": self.temperature,
+            "max_tokens": self.max_output_tokens,
         }
-        data = self._post_json(url, headers, payload)
+        data = self._post_json(url, headers, payload, timeout=self.timeout)
         choices = data.get("choices", [])
         if not choices:
             raise RuntimeError(f"LLM response has no choices: {data}")
@@ -110,9 +121,12 @@ class LLMClient:
             "model": self.model_name,
             "messages": [{"role": "user", "content": message}],
             "stream": False,
-            "options": {"temperature": self.temperature},
+            "options": {
+                "temperature": self.temperature,
+                "num_predict": self.max_output_tokens,
+            },
         }
-        data = self._post_json(url, {"Content-Type": "application/json"}, payload)
+        data = self._post_json(url, {"Content-Type": "application/json"}, payload, timeout=self.timeout)
         if "message" in data:
             return data["message"].get("content", "")
         return data.get("response", "")
@@ -125,7 +139,7 @@ class LLMClient:
         return f"{self.base_url}/v1/chat/completions"
 
     @staticmethod
-    def _post_json(url: str, headers: dict, payload: dict) -> dict:
+    def _post_json(url: str, headers: dict, payload: dict, *, timeout: int = 600) -> dict:
         request = urllib.request.Request(
             url,
             data=json.dumps(payload).encode("utf-8"),
@@ -133,7 +147,7 @@ class LLMClient:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(request, timeout=180) as response:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
                 body = response.read().decode("utf-8")
         except urllib.error.HTTPError as exc:
             body = exc.read().decode("utf-8", errors="replace")

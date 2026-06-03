@@ -21,21 +21,25 @@ MODEL_CONFIG = {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
+            "max_output_tokens": 128,
         },
         "red": {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.9,
+            "max_output_tokens": 256,
         },
         "patch": {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.7,
+            "max_output_tokens": 256,
         },
         "eval": {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
+            "max_output_tokens": 128,
         },
     },
     "providers": {

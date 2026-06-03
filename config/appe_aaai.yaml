@@ -60,11 +60,11 @@ outputs:
 
 smoke:
   calib_size: 10
-  evo_clean_size: 30
-  guard_size: 20
-  test_size: 30
+  evo_clean_size: 12
+  guard_size: 8
+  test_size: 10
   rounds: 1
-  clean_batch_size: 4
+  clean_batch_size: 2
   attacks_per_sample: 1
-  clean_guard_size: 8
-  adv_validation_size: 8
+  clean_guard_size: 4
+  adv_validation_size: 4

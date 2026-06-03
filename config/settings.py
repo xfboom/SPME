@@ -93,6 +93,7 @@ class LLMRoleConfig:
     provider: str | None
     model: str | None
     temperature: float | None
+    max_output_tokens: int | None
 
 
 def _deep_merge(base: dict, override: dict) -> dict:
@@ -155,6 +156,7 @@ def get_llm_role_config(role: str = "target") -> LLMRoleConfig:
         provider=role_cfg.get("provider"),
         model=role_cfg.get("model"),
         temperature=role_cfg.get("temperature"),
+        max_output_tokens=role_cfg.get("max_output_tokens"),
     )
 
 

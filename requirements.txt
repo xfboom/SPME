@@ -3,6 +3,7 @@
 
 matplotlib>=3.8
 pytest>=8.0
+tqdm>=4.66
 datasets>=2.19
 PyYAML>=6.0
 Jinja2>=3.1

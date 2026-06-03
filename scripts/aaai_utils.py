@@ -10,6 +10,11 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+try:
+    from tqdm.auto import tqdm
+except ModuleNotFoundError:
+    tqdm = None
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -397,15 +402,27 @@ def predict_samples(
             temperature=float(model_cfg.get("temperature", 0.0)),
             provider=model_cfg.get("provider"),
             role=model_cfg.get("role", "eval"),
+            max_output_tokens=int(model_cfg.get("max_output_tokens", 128)),
         )
 
     predictions = []
     total = len(samples)
     label = progress_label or method
     show_progress = bool(config.get("progress", True)) and total > 0
-    if show_progress:
+    iterator = samples
+    if show_progress and tqdm is not None:
+        iterator = tqdm(
+            samples,
+            desc=f"[Predict] {label}",
+            total=total,
+            unit="sample",
+            dynamic_ncols=True,
+            leave=True,
+        )
+    elif show_progress:
         print(f"[Predict] {label}: 0/{total}", flush=True)
-    for idx, sample in enumerate(samples, start=1):
+
+    for idx, sample in enumerate(iterator, start=1):
         full_prompt = f"{prompt}\n\nQuestion: {sample['question']}"
         if backend == "mock":
             output = mock_model_output(prompt, sample)
@@ -425,7 +442,7 @@ def predict_samples(
                 "is_correct": is_correct_output(output, str(sample.get("answer", ""))),
             }
         )
-        if show_progress and (idx == total or idx == 1 or idx % max(1, total // 10) == 0):
+        if show_progress and tqdm is None and (idx == total or idx == 1 or idx % max(1, total // 10) == 0):
             print(f"[Predict] {label}: {idx}/{total}", flush=True)
     return predictions
 
