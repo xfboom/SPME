@@ -143,6 +143,7 @@ Real-model smoke:
 ```
 
 Use `real-smoke` before any full paper run. It keeps the smoke dataset sizes but uses the model roles from `config/model_config.py`.
+For reasoning models that emit hidden/visible thinking text first, keep `max_output_tokens` large enough for the final `<answer>...</answer>` block to appear. The default local config uses 512 output tokens for target/eval for this reason.
 
 ## Legacy Minimal Local Smoke Test
 
