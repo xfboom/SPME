@@ -8,6 +8,7 @@ import asyncio
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.LLMClient import LLMClient
+from scripts.aaai_utils import extract_answer, is_correct_output
 from config.settings import DATASET_ANSWER_COL, DATASET_QUESTION_COL, EVAL_MAX_SAMPLES, EVAL_RANDOM_SEED
 try:
     from dotenv import load_dotenv
@@ -50,23 +51,11 @@ def _is_numeric_answer(answer: str) -> bool:
 
 
 def _extract_answer(text: str) -> str:
-    match = re.search(r"<answer>(.*?)</answer>", text, re.IGNORECASE | re.DOTALL)
-    if match:
-        return match.group(1).strip()
-    return ""
+    return extract_answer(text)
 
 
 def _is_correct(response: str, answer: str) -> bool:
-    extracted = _extract_answer(response)
-    if extracted == "":
-        return False
-    if _is_numeric_answer(answer):
-        expected = _extract_number(answer)
-        predicted = _extract_number(extracted)
-        if expected is None or predicted is None:
-            return False
-        return abs(expected - predicted) < 1e-6
-    return extracted.strip().lower() == answer.strip().lower()
+    return is_correct_output(response, answer)
 
 
 def is_correct_response(response: str, expected_answer: str) -> bool:

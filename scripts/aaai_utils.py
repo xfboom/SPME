@@ -332,9 +332,23 @@ def load_prompt(path: str | Path) -> str:
 
 
 def extract_answer(text: str) -> str:
-    match = re.search(r"<answer>(.*?)</answer>", text or "", re.IGNORECASE | re.DOTALL)
-    if match:
-        return match.group(1).strip()
+    text = text or ""
+    for match in re.finditer(r"<answer>(.*?)</answer>", text, re.IGNORECASE | re.DOTALL):
+        candidate = _clean_answer_candidate(match.group(1))
+        if candidate and not _is_placeholder_answer(candidate):
+            return candidate
+
+    search_region = _post_think_region(text)
+    for candidate in _iter_fallback_answer_candidates(search_region):
+        candidate = _clean_answer_candidate(candidate)
+        if candidate and not _is_placeholder_answer(candidate):
+            return candidate
+
+    if search_region != text:
+        for candidate in _iter_fallback_answer_candidates(text):
+            candidate = _clean_answer_candidate(candidate)
+            if candidate and not _is_placeholder_answer(candidate):
+                return candidate
     return ""
 
 
@@ -348,6 +362,106 @@ def _extract_number(text: str) -> float | None:
         return None
 
 
+def _post_think_region(text: str) -> str:
+    match = list(re.finditer(r"</think>", text or "", re.IGNORECASE))
+    if not match:
+        return text or ""
+    return text[match[-1].end() :]
+
+
+def _is_placeholder_answer(text: str) -> bool:
+    normalized = re.sub(r"[^a-z0-9]+", "_", str(text or "").lower()).strip("_")
+    return normalized in {
+        "answer",
+        "final_answer",
+        "final",
+        "result",
+        "your_answer",
+        "the_answer",
+    }
+
+
+def _clean_answer_candidate(text: str) -> str:
+    candidate = str(text or "").strip()
+    candidate = re.sub(r"^```(?:\w+)?|```$", "", candidate).strip()
+    candidate = re.sub(r"^\*+|\*+$", "", candidate).strip()
+    boxed = re.fullmatch(r"\\boxed\{\s*(.*?)\s*\}", candidate, re.IGNORECASE | re.DOTALL)
+    if boxed:
+        candidate = boxed.group(1).strip()
+
+    option = _normalize_choice_answer(candidate)
+    if option:
+        return option
+
+    label = _normalize_short_label(candidate)
+    if label:
+        return label
+
+    return candidate.strip(" \t\r\n。.")
+
+
+def _iter_fallback_answer_candidates(text: str):
+    lines = [line.strip() for line in (text or "").splitlines()]
+    label_pattern = re.compile(
+        r"^(?:\*+)?\s*(?:answer|final answer|final|答案)\s*(?:\*+)?\s*[:：]\s*(.*)$",
+        re.IGNORECASE,
+    )
+    for idx, line in enumerate(lines):
+        label_match = label_pattern.match(line)
+        if label_match:
+            tail = re.sub(r"^\*+|\*+$", "", label_match.group(1).strip()).strip()
+            if tail:
+                yield tail
+            else:
+                for next_line in lines[idx + 1 :]:
+                    if next_line:
+                        yield next_line
+                        break
+
+        for boxed_match in re.finditer(r"\\boxed\{\s*([^}]+?)\s*\}", line, re.IGNORECASE):
+            yield boxed_match.group(1)
+
+    for line in reversed(lines):
+        if _normalize_choice_answer(line) or _normalize_short_label(line):
+            yield line
+            break
+
+
+def _normalize_choice_answer(text: str) -> str:
+    candidate = str(text or "").strip()
+    match = re.match(r"^\(?([A-Fa-f])\)?(?:[\).:：\s]|$)", candidate)
+    if match and not re.match(r"^(false|final)\b", candidate, re.IGNORECASE):
+        return f"({match.group(1).upper()})"
+    match = re.search(r"\(([A-Fa-f])\)", candidate)
+    if match:
+        return f"({match.group(1).upper()})"
+    return ""
+
+
+def _normalize_short_label(text: str) -> str:
+    candidate = str(text or "").strip().strip("\"'`“”‘’")
+    match = re.match(r"^(true|false|yes|no|valid|invalid)\b", candidate, re.IGNORECASE)
+    if not match:
+        return ""
+    value = match.group(1).lower()
+    if value in {"true", "false"}:
+        return value.title()
+    if value in {"yes", "no"}:
+        return value.title()
+    return value
+
+
+def _normalize_answer_for_match(text: str) -> str:
+    candidate = _clean_answer_candidate(text)
+    option = _normalize_choice_answer(candidate)
+    if option:
+        return option
+    label = _normalize_short_label(candidate)
+    if label:
+        return label.lower()
+    return re.sub(r"\s+", " ", candidate).strip().lower()
+
+
 def is_correct_output(output: str, answer: str) -> bool:
     parsed = extract_answer(output)
     if parsed == "":
@@ -356,7 +470,7 @@ def is_correct_output(output: str, answer: str) -> bool:
     if expected_num is not None and str(answer).strip() != "":
         predicted_num = _extract_number(parsed)
         return predicted_num is not None and math.isclose(expected_num, predicted_num, abs_tol=1e-6)
-    return parsed.strip().lower() == str(answer).strip().lower()
+    return _normalize_answer_for_match(parsed) == _normalize_answer_for_match(str(answer))
 
 
 def _wrong_answer(answer: str) -> str:

@@ -1,5 +1,6 @@
 You are a helpful reasoning assistant. Solve the problem internally.
 
 Do not include reasoning.
-Output exactly one line:
-<answer>FINAL_ANSWER</answer>
+Output exactly one line.
+Start with <answer>, write only the final answer, then end with </answer>.
+Do not write placeholder words such as FINAL_ANSWER or RESULT.
