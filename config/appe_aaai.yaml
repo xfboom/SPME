@@ -24,7 +24,7 @@ model:
   provider: null
   target_model: null
   temperature: 0.0
-  max_output_tokens: 512
+  max_output_tokens: 64
 
 appe:
   rounds: 5
