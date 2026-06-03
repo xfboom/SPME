@@ -21,7 +21,7 @@ MODEL_CONFIG = {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
-            "max_output_tokens": 128,
+            "max_output_tokens": 64,
         },
         "red": {
             "provider": "ollama",
@@ -39,7 +39,7 @@ MODEL_CONFIG = {
             "provider": "ollama",
             "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
-            "max_output_tokens": 128,
+            "max_output_tokens": 64,
         },
     },
     "providers": {
