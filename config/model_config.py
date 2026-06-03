@@ -15,26 +15,26 @@ MODEL_CONFIG_OVERRIDES = {
 """
 
 MODEL_CONFIG = {
-    "default_provider": "volc",
+    "default_provider": "ollama",
     "roles": {
         "target": {
-            "provider": "volc",
-            "model": "doubao-seed-2.0-pro",
+            "provider": "ollama",
+            "model": "deepseek-r1:14b",
             "temperature": 0.0,
         },
         "red": {
-            "provider": "volc",
-            "model": "deepseek-v3.2",
+            "provider": "ollama",
+            "model": "deepseek-r1:14b",
             "temperature": 0.9,
         },
         "patch": {
-            "provider": "volc",
-            "model": "deepseek-v3.2",
+            "provider": "ollama",
+            "model": "deepseek-r1:14b",
             "temperature": 0.7,
         },
         "eval": {
-            "provider": "volc",
-            "model": "doubao-seed-2.0-pro",
+            "provider": "ollama",
+            "model": "deepseek-r1:14b",
             "temperature": 0.0,
         },
     },
@@ -56,7 +56,7 @@ MODEL_CONFIG = {
         "ollama": {
             "api_key": None,
             "base_url": "http://127.0.0.1:11434",
-            "model": "qwen2.5:7b-instruct",
+            "model": "deepseek-r1:14b",
         },
     },
 }
