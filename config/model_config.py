@@ -19,22 +19,22 @@ MODEL_CONFIG = {
     "roles": {
         "target": {
             "provider": "ollama",
-            "model": "deepseek-r1:14b",
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
         },
         "red": {
             "provider": "ollama",
-            "model": "deepseek-r1:14b",
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.9,
         },
         "patch": {
             "provider": "ollama",
-            "model": "deepseek-r1:14b",
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.7,
         },
         "eval": {
             "provider": "ollama",
-            "model": "deepseek-r1:14b",
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
             "temperature": 0.0,
         },
     },
@@ -56,7 +56,7 @@ MODEL_CONFIG = {
         "ollama": {
             "api_key": None,
             "base_url": "http://127.0.0.1:11434",
-            "model": "deepseek-r1:14b",
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M:latest",
         },
     },
 }

@@ -175,6 +175,12 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
     use_meta_controller = variant != "no_meta_controller"
     single_agent = variant == "single_blue_agent"
 
+    print(
+        f"[APPE] variant={variant}, rounds={rounds}, "
+        f"clean_batch_size={clean_batch_size}, model_backend={config.get('model', {}).get('backend')}",
+        flush=True,
+    )
+
     base_metrics, _ = evaluate_prompt(
         prompt=base_prompt,
         method="Base Prompt",
@@ -204,6 +210,7 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
     save_json(round0_dir / "round_metrics.json", evolution_rows[0])
 
     for round_idx in range(1, rounds + 1):
+        print(f"[APPE] Round {round_idx}/{rounds}: start", flush=True)
         round_dir = rounds_dir / f"round_{round_idx}"
         round_dir.mkdir(parents=True, exist_ok=True)
         current_prompt = memory.current_system_prompt
@@ -219,8 +226,15 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
             prefix=f"round{round_idx}_seen_adv",
         )
         save_jsonl(round_dir / "adv_batch.jsonl", adv_batch)
+        print(f"[APPE] Round {round_idx}/{rounds}: generated adv_batch={len(adv_batch)}", flush=True)
 
-        adv_preds = predict_samples(current_prompt, adv_batch, "APPE", config)
+        adv_preds = predict_samples(
+            current_prompt,
+            adv_batch,
+            "APPE",
+            config,
+            progress_label=f"APPE round {round_idx}/adv_batch",
+        )
         pred_by_id = {row["sample_id"]: row for row in adv_preds}
         failures = []
         for sample in adv_batch:
@@ -228,6 +242,7 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
             if not pred.get("is_correct"):
                 failures.append({**sample, "prediction": pred})
         save_jsonl(round_dir / "failures.jsonl", failures)
+        print(f"[APPE] Round {round_idx}/{rounds}: failures={len(failures)}", flush=True)
 
         current_rules = [patch.repair_rule for patch in memory.get_active_patches()]
         diagnoses = blue.diagnose_failures_batch(failures, use_failure_ontology=use_failure_ontology)
@@ -239,6 +254,10 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
             use_failure_ontology=use_failure_ontology,
         )
         save_jsonl(round_dir / "candidate_patches.jsonl", candidate_patch_jsons)
+        print(
+            f"[APPE] Round {round_idx}/{rounds}: candidate_patches={len(candidate_patch_jsons)}",
+            flush=True,
+        )
 
         clean_guard_batch = sample_records(guard, clean_guard_size, seed + 1000 + round_idx)
         adv_validation_batch = sample_records(
@@ -248,7 +267,13 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
         )
 
         accepted = rejected = merged = 0
-        for patch_json in candidate_patch_jsons:
+        for patch_idx, patch_json in enumerate(candidate_patch_jsons, start=1):
+            print(
+                f"[APPE] Round {round_idx}/{rounds}: evaluating patch "
+                f"{patch_idx}/{len(candidate_patch_jsons)} "
+                f"({patch_json.get('failure_type', 'Unknown')})",
+                flush=True,
+            )
             patch = memory.build_patch(
                 failure_type=patch_json.get("failure_type", "Unknown_Vulnerability"),
                 attack_type=patch_json.get("attack_type", ""),
@@ -278,6 +303,12 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
                 score = eval_metrics["adv_gain"] - eval_metrics["clean_drop"]
 
             memory.apply_decision(patch, decision)
+            print(
+                f"[APPE] Round {round_idx}/{rounds}: patch {patch_idx}/{len(candidate_patch_jsons)} "
+                f"decision={decision}, adv_gain={eval_metrics['adv_gain']:.4f}, "
+                f"clean_drop={eval_metrics['clean_drop']:.4f}",
+                flush=True,
+            )
             if decision == "accept":
                 accepted += 1
             elif decision == "merge":
@@ -324,6 +355,12 @@ def run_appe(config: dict, *, variant: str = "full", output_dir: str | Path | No
         )
         evolution_rows.append(row)
         save_json(round_dir / "round_metrics.json", row)
+        print(
+            f"[APPE] Round {round_idx}/{rounds}: done "
+            f"clean_acc={row['clean_acc']}, seen_adv_acc={row['seen_adv_acc']}, "
+            f"active_patches={row['active_patch_count']}",
+            flush=True,
+        )
 
     final_prompt = memory.current_system_prompt
     final_metrics, predictions = evaluate_prompt(

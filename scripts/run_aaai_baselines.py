@@ -145,11 +145,13 @@ def run_aaai_baselines(
         unseen_adv_samples=eval_sets["unseen_adv"],
     )
     rows = []
-    for method in methods:
+    for idx, method in enumerate(methods, start=1):
+        print(f"[Baselines] {idx}/{len(methods)} fitting/evaluating {method.name}", flush=True)
         method.fit(eval_sets, config)
         rows.append(method.evaluate(config, eval_sets, base_metrics["clean_acc"]))
 
     if appe_metrics is not None:
+        print("[Baselines] adding APPE row", flush=True)
         appe_row = {col: appe_metrics.get(col, "") for col in MAIN_COLUMNS}
         appe_row["method"] = "APPE"
         rows.append(appe_row)

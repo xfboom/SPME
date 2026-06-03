@@ -375,7 +375,14 @@ def mock_model_output(prompt: str, sample: dict) -> str:
     return f"<answer>{_wrong_answer(gold)}</answer>"
 
 
-def predict_samples(prompt: str, samples: list[dict], method: str, config: dict) -> list[dict]:
+def predict_samples(
+    prompt: str,
+    samples: list[dict],
+    method: str,
+    config: dict,
+    *,
+    progress_label: str | None = None,
+) -> list[dict]:
     model_cfg = config.get("model", {})
     backend = model_cfg.get("backend", "real")
     client = None
@@ -393,7 +400,12 @@ def predict_samples(prompt: str, samples: list[dict], method: str, config: dict)
         )
 
     predictions = []
-    for sample in samples:
+    total = len(samples)
+    label = progress_label or method
+    show_progress = bool(config.get("progress", True)) and total > 0
+    if show_progress:
+        print(f"[Predict] {label}: 0/{total}", flush=True)
+    for idx, sample in enumerate(samples, start=1):
         full_prompt = f"{prompt}\n\nQuestion: {sample['question']}"
         if backend == "mock":
             output = mock_model_output(prompt, sample)
@@ -413,6 +425,8 @@ def predict_samples(prompt: str, samples: list[dict], method: str, config: dict)
                 "is_correct": is_correct_output(output, str(sample.get("answer", ""))),
             }
         )
+        if show_progress and (idx == total or idx == 1 or idx % max(1, total // 10) == 0):
+            print(f"[Predict] {label}: {idx}/{total}", flush=True)
     return predictions
 
 
@@ -453,9 +467,27 @@ def evaluate_prompt(
     unseen_adv_samples: list[dict],
     base_clean_acc: float | None = None,
 ) -> tuple[dict, dict[str, list[dict]]]:
-    clean_preds = predict_samples(prompt, clean_samples, method, config)
-    seen_preds = predict_samples(prompt, seen_adv_samples, method, config)
-    unseen_preds = predict_samples(prompt, unseen_adv_samples, method, config)
+    clean_preds = predict_samples(
+        prompt,
+        clean_samples,
+        method,
+        config,
+        progress_label=f"{method}/clean",
+    )
+    seen_preds = predict_samples(
+        prompt,
+        seen_adv_samples,
+        method,
+        config,
+        progress_label=f"{method}/seen_adv",
+    )
+    unseen_preds = predict_samples(
+        prompt,
+        unseen_adv_samples,
+        method,
+        config,
+        progress_label=f"{method}/unseen_adv",
+    )
     clean_acc = accuracy(clean_preds)
     seen_acc = accuracy(seen_preds)
     unseen_acc = accuracy(unseen_preds)

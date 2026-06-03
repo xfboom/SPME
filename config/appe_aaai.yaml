@@ -1,4 +1,5 @@
 seed: 42
+progress: true
 
 data:
   dataset_name: "local"

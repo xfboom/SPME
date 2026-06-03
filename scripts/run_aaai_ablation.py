@@ -35,7 +35,8 @@ def run_aaai_ablation(
     out_dir = root_path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = []
-    for display_name, variant in VARIANTS:
+    for idx, (display_name, variant) in enumerate(VARIANTS, start=1):
+        print(f"[Ablation] {idx}/{len(VARIANTS)} running {display_name}", flush=True)
         if variant == "full" and full_metrics is not None:
             metrics = dict(full_metrics)
         else:
